@@ -5,7 +5,7 @@ from models import BOOKS, Book
 book_bp = Blueprint("books", __name__)
 
 
-def get_book_by_id(book_id):
+def get_book_by_id(book_id: str) -> Book:
     return next((b for b in BOOKS if b.id == book_id), None)
 
 
