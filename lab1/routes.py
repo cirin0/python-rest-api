@@ -5,6 +5,10 @@ from models import BOOKS, Book
 book_bp = Blueprint("books", __name__)
 
 
+def get_book_by_id(book_id):
+    return next((b for b in BOOKS if b.id == book_id), None)
+
+
 @book_bp.route("/books", methods=["GET"])
 def get_books():
     return jsonify(books_schema.dump(BOOKS))
@@ -12,7 +16,7 @@ def get_books():
 
 @book_bp.route("/books/<int:book_id>", methods=["GET"])
 def get_book(book_id):
-    book = next((b for b in BOOKS if b.id == book_id), None)
+    book = get_book_by_id(book_id)
     if book:
         return jsonify(book_schema.dump(book))
     else:
@@ -39,10 +43,8 @@ def add_book():
 
 @book_bp.route("/books/<int:book_id>", methods=["DELETE"])
 def delete_book(book_id):
-    global BOOKS
-    book_to_delete = next((b for b in BOOKS if b.id == book_id), None)
-    if book_to_delete:
-        BOOKS = [b for b in BOOKS if b.id != book_id]
-        return "Книгу видалено", 204
-    else:
-        return "Немає книги з таким id", 404
+    book = get_book_by_id(book_id)
+    if book:
+        BOOKS.remove(book)
+        return "", 204
+    return "Немає книги з таким id", 404
