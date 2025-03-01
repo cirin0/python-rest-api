@@ -9,6 +9,21 @@ def get_book_by_id(book_id):
     return next((b for b in BOOKS if b.id == book_id), None)
 
 
+@book_bp.route("/", methods=["GET"])
+def index():
+    return jsonify(
+        {
+            "message": "Welcome to the Books API",
+            "endpoints": {
+                "GET /books": "Get all books",
+                "GET /books/<id>": "Get a specific book by ID",
+                "POST /books": "Add a new book",
+                "DELETE /books/<id>": "Delete a book by ID",
+            },
+        }
+    )
+
+
 @book_bp.route("/books", methods=["GET"])
 def get_books():
     return jsonify(books_schema.dump(BOOKS))

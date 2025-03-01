@@ -4,7 +4,7 @@ from routes import book_bp
 
 def create_app():
     app = Flask(__name__)
-    app.register_blueprint(book_bp, url_prefix="/v1/api")
+    app.register_blueprint(book_bp, url_prefix="/api/v1/")
     return app
 
 
