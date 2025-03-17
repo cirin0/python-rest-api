@@ -25,7 +25,6 @@ class Book(db.Model):
         }
 
 
-# Початкові дані для заповнення бази даних
 INITIAL_BOOKS = [
     {
         "id": 1,
