@@ -2,7 +2,7 @@ from dataclasses import asdict
 from fastapi import APIRouter, HTTPException, Response
 from typing import Dict, Any
 
-from models import BOOKS, Book
+from models import BOOKS, Book, generate_new_book_id
 from schemas import BookSchema
 
 book_router = APIRouter(tags=["books"])
@@ -40,7 +40,7 @@ async def get_book(book_id: int):
 
 @book_router.post("/books", status_code=201)
 async def add_book(book_data: BookSchema):
-    id = max([book.id for book in BOOKS]) + 1
+    id = generate_new_book_id()
 
     new_book = Book(
         id=id,
