@@ -28,7 +28,13 @@ async def register(user: UserCreate, db: AsyncSession = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return {"message": "User created"}
+    return {
+        "status": "success",
+        "message": f"User '{user.username}' successfully registered",
+        "user_id": new_user.id,
+        "username": new_user.username,
+        "next_steps": "You can now login using your credentials at /login endpoint",
+    }
 
 
 @auth_router.post("/login", response_model=Token)
@@ -44,7 +50,7 @@ async def login(user: UserCreate, db: AsyncSession = Depends(get_db)):
 
 
 @auth_router.post("/refresh", response_model=Token)
-async def refresh_token(token_data: dict):
+async def refresh_token(token_data: dict) -> Token:
     if "token" not in token_data:
         raise HTTPException(status_code=400, detail="Token is required")
 

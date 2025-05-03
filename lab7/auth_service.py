@@ -7,7 +7,6 @@ ALGORITHM = "HS256"
 ACCESS_EXPIRE_MINUTES = 15
 REFRESH_EXPIRE_DAYS = 7
 
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 

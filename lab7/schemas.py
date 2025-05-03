@@ -18,6 +18,18 @@ class UserCreate(BaseModel):
     username: str = Field(..., min_length=3, max_length=20)
     password: str = Field(..., min_length=6)
 
+    @field_validator("username")
+    def validate_username(cls, username):
+        if not username.isalnum():
+            raise ValueError("Username must be alphanumeric")
+        return username
+
+    @field_validator("password")
+    def validate_password(cls, password):
+        if len(password) < 6:
+            raise ValueError("Password must be at least 6 characters long")
+        return password
+
 
 class Token(BaseModel):
     access_token: str
